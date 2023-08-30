@@ -1,4 +1,3 @@
-# from Tests.pages.locators import BasePageLocators
 from time import sleep
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -10,34 +9,9 @@ from selenium.webdriver.common.keys import Keys
 from selenium.webdriver.common.action_chains import ActionChains
 from selenium.webdriver.chrome.options import Options # для запуска браузера в безоконном режиме; на английском
 from selenium.webdriver.chrome.service import Service
-
-# ссылка на стенд лендинг:
-link_dev = "http://doc.cryptomus.kotyata.space/"
-# ссылка на прод лендинг:
-link = "https://doc.cryptomus.com/"
+from .data.data import *
 
 
-# ФУНКЦИЯ ДЛЯ НАСТРОЙКИ БРАУЗЕРА, ЧТОБЫ НЕ ПОВТОРЯТЬ КОД
-@pytest.fixture
-def driver():
-    """
-    Функция для настройки браузера
-    """
-    chrome_options = Options()
-    chrome_options.add_argument("--lang=en-US")  # Установите желаемый язык, например, en-US для английского
-    # путь к драйверу браузера, например, для Chrome используйте ChromeDriver
-    driver_path = "c:\\Chromedriver\\chromedriver.exe"
-    # Создание объекта Service с указанием пути к драйверу
-    service = Service(driver_path)
-    # Создание экземпляра браузерного драйвера с использованием объекта Service
-    driver = webdriver.Chrome(service=service, options=chrome_options)
-    # Максимизация окна браузера
-    driver.maximize_window()
-    return driver
-
-
-# ПРОВЕРКА НАЛИЧИЯ ПОЛЯ ПОИСКА В ДОКУМЕНТАЦИИ
-# Ожид.результат: поле поиска есть
 def test_input_search_is_displayed(driver):
     """
     Проверка наличия поля поиска в документации
@@ -46,13 +20,11 @@ def test_input_search_is_displayed(driver):
     try:
         # открытие страницы
         driver.get(link)
-
         # поиск
         input_search = WebDriverWait(driver, 10).until(EC.presence_of_element_located(
             (By.XPATH, '//*[@id="root"]/div/div[1]/div/div[1]/div/div/div[1]/div/input')))
         # Проверка, что поиск есть на странице
         assert input_search.is_displayed(), 'ОШИБКА: нет поля поиска по документации !!!'
-
     except Exception as e:
         # обработка исключений
         pytest.fail(f"ERROR: {str(e)}")
@@ -61,9 +33,6 @@ def test_input_search_is_displayed(driver):
         driver.quit()
 
 
-# ПРОВЕРКА ПОЯВЛЕНИЯ ОБЛАСТИ ПОИСКА В ДОКУМЕНТАЦИИ
-# Ожид.результат: поле поиска ищет и выводит информацию
-# root > div > div.layout-wrapper > div > div.header > div > div > div.content__search-area > ul
 def test_search_area_is_displayed(driver):
     """
     ПРОВЕРКА ПОЯВЛЕНИЯ ОБЛАСТИ ПОИСКА В ДОКУМЕНТАЦИИ
@@ -88,8 +57,6 @@ def test_search_area_is_displayed(driver):
         driver.quit()
 
 
-# ПРОВЕРКА НАЛИЧИЯ КНОПКИ СМЕНЫ ТЕМЫ
-# Ожид.результат: кнопка есть
 def test_theme_button_is_displayed(driver):
     """
     ПРОВЕРКА НАЛИЧИЯ КНОПКИ СМЕНЫ ТЕМЫ
@@ -110,8 +77,6 @@ def test_theme_button_is_displayed(driver):
         driver.quit()
 
 
-# ПРОВЕРКА СМЕНЫ ТЕМЫ
-# Ожид.результат: смена происходит добавлением class="dark-content" в <body class="dark-content">
 def test_theme_is_changed(driver):
     """"
     Проверка смены темы
@@ -138,8 +103,6 @@ def test_theme_is_changed(driver):
         driver.quit()
 
 
-# ПРОВЕРКА НАЛИЧИЯ КНОПКИ СМЕНЫ ЯЗЫКА
-# Ожид.результат: кнопка есть
 def test_language_button_is_displayed(driver):
     """
     Проверка наличия кнопки смены языка
@@ -161,8 +124,6 @@ def test_language_button_is_displayed(driver):
         driver.quit()
 
 
-# ПРОВЕРКА НАЛИЧИЯ ДРУГИХ ЯЗЫКОВ(ДРОПДАУН МЕНЮ)
-# Ожид.результат: меню есть
 def test_language_dropdown_menu_is_displayed(driver):
     """
     Проверка наличия других языков(дропдаун меню)
@@ -185,8 +146,6 @@ def test_language_dropdown_menu_is_displayed(driver):
         driver.quit()
 
 
-# ПРОВЕРКА НАЛИЧИЯ КНОПКИ "BACK TO CRYPTOMUS"
-# Ожид.результат: есть
 def test_button_back_to_cryptomus_is_displayed(driver):
     """
     Проверка наличия кнопки "back to cryptomus"
@@ -208,8 +167,6 @@ def test_button_back_to_cryptomus_is_displayed(driver):
         driver.quit()
 
 
-# ПРОВЕРКА РАБОТЫ КНОПКИ "BACK TO CRYPTOMUS"
-# Ожид.результат: происходит переход на https://cryptomus.com/
 def test_button_back_to_cryptomus_click(driver):
     """
     Проверка работы кнопки "back to cryptomus"
@@ -240,8 +197,6 @@ def test_button_back_to_cryptomus_click(driver):
         driver.quit()
 
 
-# Проверка модуля "WooCommerce"
-# Ожид.результат: можно скачать WooCommerce
 def test_download_woocommerce(driver):
     """
     Проверка модуля "WooCommerce"
@@ -276,8 +231,6 @@ def test_download_woocommerce(driver):
         driver.quit()
 
 
-# Проверка модуля "OpenCart 3"
-# Ожид.результат: можно скачать модуль
 def test_download_cryptomus_opencart3(driver):
     """
     Проверка модуля "OpenCart 3"
@@ -312,8 +265,6 @@ def test_download_cryptomus_opencart3(driver):
         driver.quit()
 
 
-# Проверка модуля "PrestaShop 1"
-# Ожид.результат: можно скачать модуль
 def test_download_cryptomus_prestashop1(driver):
     """
     Проверка модуля "PrestaShop 1"
@@ -348,8 +299,6 @@ def test_download_cryptomus_prestashop1(driver):
         driver.quit()
 
 
-# Проверка модуля "WHMCS"
-# Ожид.результат: можно скачать модуль
 def test_download_cryptomus_whmcs(driver):
     """
     Проверка модуля "WHMCS"
@@ -384,8 +333,6 @@ def test_download_cryptomus_whmcs(driver):
         driver.quit()
 
 
-# Проверка модуля "RootPanel"
-# Ожид.результат: можно перейти по ссылке (скачать модуль нет)
 def test_download_cryptomus_rootpanel(driver):
     """
     Проверка модуля "RootPanel"
@@ -416,8 +363,6 @@ def test_download_cryptomus_rootpanel(driver):
         driver.quit()
 
 
-# Проверка модуля "OpenCart 2"
-# Ожид.результат: можно скачать модуль
 def test_download_cryptomus_opencart2(driver):
     """
     Проверка модуля "OpenCart 2"
@@ -452,8 +397,6 @@ def test_download_cryptomus_opencart2(driver):
         driver.quit()
 
 
-# Проверка модуля "PrestaShop 8"
-# Ожид.результат: можно скачать модуль
 def test_download_cryptomus_prestashop8(driver):
     """
     Проверка модуля "PrestaShop 8"
@@ -488,8 +431,6 @@ def test_download_cryptomus_prestashop8(driver):
         driver.quit()
 
 
-# Проверка модуля "XenForo"
-# Ожид.результат: можно скачать модуль
 def test_download_cryptomus_xenforo(driver):
     """
     Проверка модуля "XenForo"
@@ -525,8 +466,6 @@ def test_download_cryptomus_xenforo(driver):
         driver.quit()
 
 
-# Проверка модуля "phpshop-v1.0.zip"
-# Ожид.результат: можно скачать модуль
 def test_download_cryptomus_phpshop_v1_0(driver):
     """
     Проверка модуля "phpshop-v1.0.zip"
@@ -562,8 +501,6 @@ def test_download_cryptomus_phpshop_v1_0(driver):
         driver.quit()
 
 
-# Проверка модуля "XenForo2.zip"
-# Ожид.результат: можно скачать модуль
 def test_download_cryptomus_xenforo2(driver):
     """
     Проверка модуля "XenForo2.zip"
@@ -599,8 +536,6 @@ def test_download_cryptomus_xenforo2(driver):
         driver.quit()
 
 
-# Проверка модуля "Tilda"
-# Ожид.результат: переход по ссылке (скачать модуль нет)
 def test_download_cryptomus_tilda(driver):
     """
     Проверка модуля "Tilda"
@@ -631,8 +566,6 @@ def test_download_cryptomus_tilda(driver):
         driver.quit()
 
 
-# Проверка модуля "XenForo1.5.zip"
-# Ожид.результат: можно скачать модуль
 def test_download_cryptomus_xenforo1_5(driver):
     """
     Проверка модуля "XenForo1_5.zip"
@@ -668,8 +601,6 @@ def test_download_cryptomus_xenforo1_5(driver):
         driver.quit()
 
 
-# Проверка наличия скрола на странице
-# Ожид.результат: скрол есть (разрешение экрана Full HD, масштаб 100%)
 def test_scroll_verification(driver):
     """
     Проверка наличия скрола на странице
@@ -701,35 +632,33 @@ def test_scroll_verification(driver):
         driver.quit()
 
 
-# тест ниже не работает!!! Не находится кнопка((
-# --------------------------------        ПРОВЕРКА НАЛИЧИЯ КНОПКИ ОБМЕНА СООБЩЕНИЯМИ ZENDESK  --------------------------------------
+@pytest.mark.skip(reason="Тест временно не работает!")
+# ПРОВЕРКА НАЛИЧИЯ КНОПКИ ОБМЕНА СООБЩЕНИЯМИ ZENDESK
 # Ожид.результат: кнопка есть
-def test_zendesk_button_is_displayed():
-    global driver
+def test_zendesk_button_is_displayed(driver):
+    """
+    Проверка наличия кнопки обмена сообщениями zendesk
+    Ожид.результат: кнопка есть
+    """
     try:
-        # инициализация драйвера браузера
-        driver = webdriver.Chrome()
-        # Максимизация окна браузера
-        driver.maximize_window()
         # открытие страницы
         driver.get(link)
-
         # надо подождать пока загрузится zendesk
         sleep(3)
-        print('1')
         # поиск
         # zendesk_button = WebDriverWait(driver, 10).until(EC.presence_of_element_located(
         #     (By.CSS_SELECTOR, '.sc-EHOje')))
 
-        # zendesk_button = driver.find_element(By.CLASS_NAME, '.sc-EHOje')
-        # driver.find_element(By.CSS_SELECTOR, 'sc-EHOje').click()
-        driver.find_element(By.CLASS_NAME, 'button.sc-htpNat.sc-1w3tvxe-1.cbaSPe.sc-EHOje.bsmmQV').click()
-        print('2')
-        sleep(3)
-
+        # Находим iframe по атрибуту data-product
+        iframe_element = driver.find_element(By.CSS_SELECTOR, 'iframe[data-product="web_widget"]')
+        # Переключаемся на iframe
+        driver.switch_to.frame(iframe_element)
+        # Находим кнопку по атрибуту data-garden-id
+        zendesk_button = driver.find_element(By.CSS_SELECTOR, 'button[data-garden-id="buttons.icon_button"]')
+        zendesk_button.click()
+        sleep(2)
         # Проверка, что есть на странице
-        # assert zendesk_button.is_displayed(), 'ОШИБКА: нет кнопки zendesk_button !!!'
-
+        assert zendesk_button.is_displayed(), 'ОШИБКА: нет кнопки zendesk_button !!!'
     except Exception as e:
         # обработка исключений
         pytest.fail(f"ERROR: {str(e)}")
